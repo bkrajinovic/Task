@@ -1,25 +1,33 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios'
+import Images from './components/Images'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const [data, setData] = useState()
+
+
+  useEffect(() => {
+    axios.get("https://api-dev.insidetrak.interactive1.com/homepage/get-latest-images")
+    .then((res) => {
+      console.log('res', res)
+      setData(res.data.data)
+      console.log('data', data)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
+
+
+
+    return (
+      <div className="App">
+        <Images data={data}/>
+      </div>
+    )
+  ;
 }
 
 export default App;
